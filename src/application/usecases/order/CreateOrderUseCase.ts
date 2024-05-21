@@ -1,8 +1,14 @@
-import { createOrder } from "@application/services/OrderService";
+import { OrderService } from "@application/services/OrderService";
 import { OrderDTO } from "@application/dto/OrderDTO";
-import { IOrderRepository } from "@domain/repositories/OrderRepository";
 
-export const createOrderUseCase =
-  (orderRepository: IOrderRepository) => async (orderDTO: OrderDTO) => {
-    return createOrder(orderRepository)(orderDTO);
-  };
+export class CreateOrderUseCase {
+  private orderService: OrderService;
+
+  constructor(orderService: OrderService) {
+    this.orderService = orderService;
+  }
+
+  async execute(order: OrderDTO): Promise<void> {
+    await this.orderService.createOrder(order);
+  }
+}
